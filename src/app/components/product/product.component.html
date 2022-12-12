@@ -1,0 +1,8 @@
+<div class="product-item">
+    <img [src]="this.productModel.imageUrl">
+    <div class="product-item-description">
+        <h3>{{this.productModel.name}}</h3>
+        <span class="price">{{this.productModel.price}}</span>
+        <button class="button" (click)="onAddToCart()">Buy</button>
+    </div>
+  </div>
