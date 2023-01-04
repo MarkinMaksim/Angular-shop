@@ -1,24 +1,81 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { CartModel } from '../components/models/cart-model';
 import { ProductModel } from '../components/models/product-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  productsToBuy: ProductModel[] = [];
-
-  constructor() {
-    this.productsToBuy = [
-      { name: 'Чёрное платье', description: 'Чёрное платье', imageUrl: 'https://media.istockphoto.com/id/1186448758/photo/fashionable-women-dress-on-coathanger.jpg?s=612x612&w=is&k=20&c=EVbteUsTVajoFUv9qNTO4TrhBWpetADXX0C9NcoKDAA=', price: 2000 },
-      { name: 'Чёрно белое платье', description: 'Чёрно белое платье', imageUrl: 'https://st.depositphotos.com/2002575/3060/i/450/depositphotos_30603871-stock-photo-black-and-white-dress-on.jpg', price: 2000 },
-    ]
-  }
+  productsToBuy: CartModel[] = [];
+  private cartItems = new Subject<CartModel[]>();
+  public cartItems$ = this.cartItems.asObservable();
 
   addProduct(product: ProductModel): void {
-    this.productsToBuy.push(product);
+    const existingProduct = this.productsToBuy.find(x => x.name === product.name);
+
+    if (existingProduct) {
+      existingProduct.count++;
+    } else {
+      const cartModel = new CartModel(product, 1)
+      this.productsToBuy.push(cartModel);
+    }
+
+    this.cartItems.next(this.productsToBuy);
+    console.log(this.productsToBuy);
   }
 
-  getProductsInCart(): ProductModel[]  {
+  onQuantityIncrease(cartModel: CartModel) {
+    const existingProduct = this.productsToBuy.find(x => x.name === cartModel.name);
+
+    if (existingProduct) {
+      existingProduct.count++
+    }
+
+    this.cartItems.next(this.productsToBuy);
+  }
+
+  onQuantityDecrease(cartModel: CartModel) {
+    const existingProduct = this.productsToBuy.find(x => x.name === cartModel.name);
+
+    if (existingProduct) {
+      if (existingProduct.count === 1) {
+        this.deleteItem(cartModel);
+      } else {
+        existingProduct.count--
+      }
+    }
+
+    this.cartItems.next(this.productsToBuy);
+  }
+
+  deleteItem(cartItem: CartModel) {
+    const existingProductIndex = this.productsToBuy.findIndex(x => x.name === cartItem.name);
+
+    if (existingProductIndex !== -1) {
+      this.productsToBuy.splice(existingProductIndex, 1);
+    }
+
+    this.cartItems.next(this.productsToBuy);
+  }
+
+  getProductsInCart(): CartModel[]  {
     return this.productsToBuy;
+  }
+
+  getTotalCost(): number {
+    let sum = 0;
+    this.productsToBuy.forEach(x => sum += x.price * x.count);
+    console.log(sum);
+
+    return sum;
+  }
+
+  getTotalQuantity(): number {
+    let count = 0;
+    this.productsToBuy.forEach(x => count += x.count);
+    console.log(count);
+
+    return count;
   }
 }
