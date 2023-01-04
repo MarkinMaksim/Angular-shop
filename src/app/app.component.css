@@ -1,16 +1,9 @@
 .cart {
-    flex-basis: 20%;
     background-color: rgb(193, 193, 193);
+    overflow-y: scroll;
 }
-
 .product-list {
-    flex-basis: 80%;
-}
-
-.main {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    overflow: hidden;
 }
 
 .info {
