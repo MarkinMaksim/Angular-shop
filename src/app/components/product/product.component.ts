@@ -15,10 +15,12 @@ export class ProductComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    
+
   }
 
   onAddToCart() {
     console.log("Added to card")
   }
 }
+// этот компонент дублируется?
+// есть похожий в products-module

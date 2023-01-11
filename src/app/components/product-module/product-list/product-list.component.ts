@@ -22,6 +22,8 @@ export class ProductListComponent implements OnInit {
   onAddToCart(product: ProductModel): void {
     console.log('add product to cart');
     this.cartService.addProduct(product);
+    // эти два метода часто будут вызываться вместе
+    // может быть имеет смысл написать один метод, который будет возвращать tuple?
     this.cartService.getTotalCost();
     this.cartService.getTotalQuantity();
   }

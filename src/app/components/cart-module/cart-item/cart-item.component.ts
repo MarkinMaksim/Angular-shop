@@ -7,6 +7,7 @@ import { CartModel } from '../../models/cart-model';
   styleUrls: ['./cart-item.component.css']
 })
 export class CartItemComponent implements OnInit {
+  // для чего тут инициализация инпута?
   @Input() cartModel: CartModel = {
     name: '',
     description: '',

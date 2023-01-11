@@ -18,6 +18,7 @@ export class CartListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // раз для чего-то сохранили подписку, то значит надо где-то отписаться
     this.sub = this.cartService.cartItems$.subscribe(
       data => this.cartItems = data
     );
@@ -46,7 +47,7 @@ export class CartListComponent implements OnInit {
     console.log("decrease");
     this.cartService.onQuantityDecrease(cartModel);
   }
-  
+
   trackByMethod(index:number, el:any): number {
     return el.id;
   }

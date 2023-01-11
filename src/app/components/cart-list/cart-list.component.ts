@@ -10,7 +10,7 @@ import { ProductModel } from '../models/product-model';
 export class CartListComponent implements OnInit {
   private cartService: CartService;
 
-  
+
   constructor(private service: CartService) {
     this.cartService = service;
   }
@@ -25,8 +25,9 @@ export class CartListComponent implements OnInit {
   getProductsInCart(): ProductModel[] {
     return this.cartService.getProductsInCart();
   }
-  
+
   trackByMethod(index:number, el:any): number {
     return el.id;
   }
 }
+// компонент-дубль?

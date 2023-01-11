@@ -21,3 +21,5 @@ export class ProductListComponent implements OnInit {
     this.products = this.productsService.getProducts();
   }
 }
+// этот компонент дублируется?
+// есть похожий в products-module

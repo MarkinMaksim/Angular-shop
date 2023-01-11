@@ -65,6 +65,7 @@ export class CartService {
 
   getTotalCost(): number {
     let sum = 0;
+    // попробуйте использовать reduce для этой задачи
     this.productsToBuy.forEach(x => sum += x.price * x.count);
     console.log(sum);
 

@@ -6,7 +6,7 @@ import { SharedModule } from '../shared-module/shared.module';
 
 const comp = [
   CartListComponent,
-  CartItemComponent
+  CartItemComponent // этот компонент не обязательно делать публичным, так как он за пределами модуля не используется
 ]
 
 @NgModule({
