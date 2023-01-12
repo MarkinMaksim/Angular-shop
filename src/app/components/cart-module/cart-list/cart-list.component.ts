@@ -1,6 +1,8 @@
+import { STRING_TYPE } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
+import { ConfigOptionsService } from 'src/app/services/config-options.service';
 import { CartModel } from '../../models/cart-model';
 
 @Component({
@@ -10,19 +12,16 @@ import { CartModel } from '../../models/cart-model';
 })
 export class CartListComponent implements OnInit {
   private sub!: Subscription;
-  totalCost: number = 0;
-  totalQuantity: number = 0;
   cartItems: CartModel[] = [];
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private configService: ConfigOptionsService) {
   }
 
   ngOnInit(): void {
     this.sub = this.cartService.cartItems$.subscribe(
       data => this.cartItems = data
     );
-    this.totalCost = this.cartService.getTotalCost();
-    this.totalQuantity = this.cartService.getTotalQuantity();
+    this.configService.setConfigProperty("login", "asd" )
   }
 
   getTotalCost(): number {
