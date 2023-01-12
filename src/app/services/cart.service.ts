@@ -20,8 +20,10 @@ export class CartService {
       existingProduct.count++;
     } else {
       const cartModel = new CartModel(product, 1)
-      this.productsToBuy.push(cartModel);
+      this.productsToBuy = [ ...this.productsToBuy, cartModel ];
     }
+    this.totalCost += product.price;
+    this.totalQuantity += 1;
 
     this.cartItems.next(this.productsToBuy);
     console.log(this.productsToBuy);
@@ -30,9 +32,7 @@ export class CartService {
   onQuantityIncrease(cartModel: CartModel) {
     const existingProduct = this.productsToBuy.find(x => x.name === cartModel.name);
 
-    if (existingProduct) {
-      existingProduct.count++
-    }
+    this.changeQuantity(cartModel, 1);
 
     this.cartItems.next(this.productsToBuy);
   }
@@ -40,23 +40,38 @@ export class CartService {
   onQuantityDecrease(cartModel: CartModel) {
     const existingProduct = this.productsToBuy.find(x => x.name === cartModel.name);
 
-    if (existingProduct) {
-      if (existingProduct.count === 1) {
-        this.deleteItem(cartModel);
-      } else {
-        existingProduct.count--
-      }
-    }
+    this.changeQuantity(cartModel, -1);
 
     this.cartItems.next(this.productsToBuy);
+  }
+
+  changeQuantity(cartModel: CartModel, quantity: number) {
+    const existingProduct = this.productsToBuy.find(x => x.name === cartModel.name);
+    const existingProductIndex = this.productsToBuy.findIndex(x => x.name === cartModel.name);
+
+    if (existingProduct) {
+
+      if (existingProduct.count === 1 && quantity < 0) {
+        this.deleteItem(cartModel);
+      } else {
+        existingProduct.count += quantity
+        this.productsToBuy = [...this.productsToBuy.slice(0, existingProductIndex), existingProduct, ...this.productsToBuy.slice(existingProductIndex + 1)]
+      }
+
+      this.totalQuantity += quantity;  
+      this.totalCost += existingProduct.price * quantity;
+    } 
   }
 
   deleteItem(cartItem: CartModel) {
     const existingProductIndex = this.productsToBuy.findIndex(x => x.name === cartItem.name);
 
     if (existingProductIndex !== -1) {
-      this.productsToBuy.splice(existingProductIndex, 1);
+      this.productsToBuy = [...this.productsToBuy.slice(0, existingProductIndex), ...this.productsToBuy.slice(existingProductIndex + 1)];
     }
+
+    this.totalCost -= cartItem.price * cartItem.count;
+    this.totalQuantity -= cartItem.count;
 
     this.cartItems.next(this.productsToBuy);
   }
@@ -66,22 +81,14 @@ export class CartService {
   }
 
   getCartSummary(): [number, number] {
-    return [this.getTotalCost(), this.getTotalQuantity()];
+    return [this.totalCost, this.totalQuantity];
   }
 
-  private getTotalCost(): number {
-    let sum = 0;
-    this.productsToBuy.forEach(x => sum += x.price * x.count);
-    console.log(sum);
-
-    return sum;
+  getTotalCost(): number {
+    return this.totalCost;
   }
 
-  private getTotalQuantity(): number {
-    let count = 0;
-    this.productsToBuy.forEach(x => count += x.count);
-    console.log(count);
-
-    return count;
+  getTotalQuantity(): number {
+    return this.totalQuantity;
   }
 }

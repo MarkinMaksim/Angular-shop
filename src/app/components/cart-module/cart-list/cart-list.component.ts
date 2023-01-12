@@ -10,8 +10,6 @@ import { CartModel } from '../../models/cart-model';
 })
 export class CartListComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
-  totalCost: number = 0;
-  totalQuantity: number = 0;
   cartItems: CartModel[] = [];
 
   constructor(private cartService: CartService) {
@@ -21,15 +19,14 @@ export class CartListComponent implements OnInit, OnDestroy {
     this.sub = this.cartService.cartItems$.subscribe(
       data => this.cartItems = data
     );
-    [this.totalCost, this.totalQuantity] = this.cartService.getCartSummary();
   }
 
   getTotalCost(): number {
-    return this.totalCost;
+    return this.cartService.getTotalCost();
   }
 
   getTotalQuantity(): number {
-    return this.totalQuantity;
+    return this.cartService.getTotalQuantity();
   }
 
   onDeleteFromCart(cartModel: CartModel): void {
