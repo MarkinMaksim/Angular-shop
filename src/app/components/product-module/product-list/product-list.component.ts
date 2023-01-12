@@ -22,7 +22,6 @@ export class ProductListComponent implements OnInit {
   onAddToCart(product: ProductModel): void {
     console.log('add product to cart');
     this.cartService.addProduct(product);
-    this.cartService.getTotalCost();
-    this.cartService.getTotalQuantity();
+    this.cartService.getCartSummary();
   }
 }

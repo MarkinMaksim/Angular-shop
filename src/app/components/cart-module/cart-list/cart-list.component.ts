@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { CartModel } from '../../models/cart-model';
@@ -8,7 +8,7 @@ import { CartModel } from '../../models/cart-model';
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.css']
 })
-export class CartListComponent implements OnInit {
+export class CartListComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
   totalCost: number = 0;
   totalQuantity: number = 0;
@@ -21,16 +21,15 @@ export class CartListComponent implements OnInit {
     this.sub = this.cartService.cartItems$.subscribe(
       data => this.cartItems = data
     );
-    this.totalCost = this.cartService.getTotalCost();
-    this.totalQuantity = this.cartService.getTotalQuantity();
+    [this.totalCost, this.totalQuantity] = this.cartService.getCartSummary();
   }
 
   getTotalCost(): number {
-    return this.cartService.getTotalCost();
+    return this.totalCost;
   }
 
   getTotalQuantity(): number {
-    return this.cartService.getTotalQuantity();
+    return this.totalQuantity;
   }
 
   onDeleteFromCart(cartModel: CartModel): void {
@@ -49,5 +48,9 @@ export class CartListComponent implements OnInit {
   
   trackByMethod(index:number, el:any): number {
     return el.id;
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

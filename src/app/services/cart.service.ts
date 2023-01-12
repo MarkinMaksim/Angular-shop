@@ -8,6 +8,8 @@ import { ProductModel } from '../components/models/product-model';
 })
 export class CartService {
   productsToBuy: CartModel[] = [];
+  totalCost: number = 0;
+  totalQuantity: number = 0;
   private cartItems = new Subject<CartModel[]>();
   public cartItems$ = this.cartItems.asObservable();
 
@@ -63,7 +65,11 @@ export class CartService {
     return this.productsToBuy;
   }
 
-  getTotalCost(): number {
+  getCartSummary(): [number, number] {
+    return [this.getTotalCost(), this.getTotalQuantity()];
+  }
+
+  private getTotalCost(): number {
     let sum = 0;
     this.productsToBuy.forEach(x => sum += x.price * x.count);
     console.log(sum);
@@ -71,7 +77,7 @@ export class CartService {
     return sum;
   }
 
-  getTotalQuantity(): number {
+  private getTotalQuantity(): number {
     let count = 0;
     this.productsToBuy.forEach(x => count += x.count);
     console.log(count);

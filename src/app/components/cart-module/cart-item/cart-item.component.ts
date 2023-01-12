@@ -7,14 +7,8 @@ import { CartModel } from '../../models/cart-model';
   styleUrls: ['./cart-item.component.css']
 })
 export class CartItemComponent implements OnInit {
-  @Input() cartModel: CartModel = {
-    name: '',
-    description: '',
-    imageUrl: '',
-    price: 0,
-    isAvalible: false,
-    count: 0
-  };
+  @Input()
+  cartModel!: CartModel;
 
   @Output()
   deleteItem: EventEmitter<CartModel> = new EventEmitter<CartModel>();
