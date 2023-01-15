@@ -9,12 +9,16 @@ const comp = [
   CartItemComponent
 ]
 
+const exp = [
+  CartListComponent,
+]
+
 @NgModule({
   declarations: [ ...comp ],
   imports: [
     CommonModule,
     SharedModule
   ],
-  exports: [ ...comp ]
+  exports: [ ...exp ]
 })
 export class CartModule { }

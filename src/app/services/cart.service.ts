@@ -8,9 +8,9 @@ import { ProductModel } from '../components/models/product-model';
 })
 export class CartService {
   productsToBuy: CartModel[] = [];
-  private cartItems = new Subject<CartModel[]>();
   totalCost: number = 0;
   totalQuantity: number = 0;
+  private cartItems = new Subject<CartModel[]>();
   public cartItems$ = this.cartItems.asObservable();
 
   addProduct(product: ProductModel): void {
@@ -78,6 +78,10 @@ export class CartService {
 
   getProductsInCart(): CartModel[]  {
     return this.productsToBuy;
+  }
+  
+  getCartSummary(): [number, number] {
+    return [this.totalCost, this.totalQuantity];
   }
 
   getTotalCost(): number {

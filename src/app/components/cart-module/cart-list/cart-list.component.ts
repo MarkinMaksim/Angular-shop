@@ -1,5 +1,5 @@
 import { STRING_TYPE } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { ConfigOptionsService } from 'src/app/services/config-options.service';
@@ -10,7 +10,7 @@ import { CartModel } from '../../models/cart-model';
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.css']
 })
-export class CartListComponent implements OnInit {
+export class CartListComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
   cartItems: CartModel[] = [];
 
@@ -48,5 +48,9 @@ export class CartListComponent implements OnInit {
   
   trackByMethod(index:number, el:any): number {
     return el.id;
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }
