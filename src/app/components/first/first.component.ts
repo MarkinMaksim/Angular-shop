@@ -1,7 +1,6 @@
 import { Component, destroyPlatform, Inject, OnInit, Optional } from '@angular/core';
 import { ConfigOptionsService } from 'src/app/services/config-options.service';
 import { ConstantsService } from 'src/app/services/constants.service';
-import { genId } from 'src/app/services/gen-id.generator';
 import { GeneratorService } from 'src/app/services/generator';
 import { generatedString, GeneratorFactory } from 'src/app/services/generator.factory';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
@@ -15,7 +14,6 @@ import { CategoryEnum } from '../enums/category-enum';
     { provide: ConstantsService, useValue: { App: "TaskManager", Ver: "1.0", API_URL: "http://..." } },
     { provide: ConfigOptionsService },
     { provide: generatedString, useFactory: GeneratorFactory(5), deps:[GeneratorService] },
-    { provide: genId },
     { provide: LocalStorageService, useValue: {} }
   ]
 })
@@ -30,7 +28,6 @@ export class FirstComponent implements OnInit {
     @Optional() public constantService: ConstantsService,
     @Optional() public configService: ConfigOptionsService,
     @Optional() @Inject(generatedString) public generatorString: string,
-    @Optional() public genId: genId,
     @Optional() public localStorage: LocalStorageService)
     { }
 

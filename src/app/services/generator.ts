@@ -1,5 +1,5 @@
-import { forwardRef, Inject, Injectable } from '@angular/core';
-import { genId } from './gen-id.generator';
+import { Injectable } from '@angular/core';
+import { generateId } from './gen-id.generator';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,6 @@ import { genId } from './gen-id.generator';
 export class GeneratorService {
 
   constructor(
-    @Inject(forwardRef(() => genId)) public genIdService: genId
   ) { }
 
   generate(n: number): string {
@@ -21,6 +20,6 @@ export class GeneratorService {
   }
 
   getNewID(): number[] {
-    return this.genIdService.generateId();
+    return generateId();
   }
 }
