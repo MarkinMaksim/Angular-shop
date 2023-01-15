@@ -79,7 +79,7 @@ export class CartService {
   getProductsInCart(): CartModel[]  {
     return this.productsToBuy;
   }
-
+  
   getCartSummary(): [number, number] {
     return [this.totalCost, this.totalQuantity];
   }
@@ -90,5 +90,15 @@ export class CartService {
 
   getTotalQuantity(): number {
     return this.totalQuantity;
+  }
+
+  removeAllProducts() {
+    this.productsToBuy = [];
+
+    this.cartItems.next(this.productsToBuy);
+  }
+
+  isEmptyCart(): boolean {
+    return this.productsToBuy.length === 0;
   }
 }

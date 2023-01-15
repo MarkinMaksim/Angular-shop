@@ -1,6 +1,8 @@
+import { STRING_TYPE } from '@angular/compiler';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
+import { ConfigOptionsService } from 'src/app/services/config-options.service';
 import { CartModel } from '../../models/cart-model';
 
 @Component({
@@ -12,13 +14,14 @@ export class CartListComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
   cartItems: CartModel[] = [];
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private configService: ConfigOptionsService) {
   }
 
   ngOnInit(): void {
     this.sub = this.cartService.cartItems$.subscribe(
       data => this.cartItems = data
     );
+    this.configService.setConfigProperty("login", "asd" )
   }
 
   getTotalCost(): number {
