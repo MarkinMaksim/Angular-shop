@@ -23,14 +23,21 @@
                         <div class="row g-0">
                             <div class="col-lg-8">
                                 <div class="p-5">
-                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
                                         <h6 class="mb-0 text-muted">{{getTotalQuantity()}} items</h6>
                                     </div>
+                                    SortBy: <select [(ngModel)]="this.sortBy">
+                                        <option>price</option>
+                                        <option selected>count</option>
+                                        <option>name</option>
+                                    </select>
+                                    Asc: <input [(ngModel)]="this.isAsc" type="checkbox">
                                     <hr class="my-4">
-                                    <app-cart-item *ngFor="let cartItem of cartItems" 
-                                    [cartModel]="cartItem" (deleteItem)="onDeleteFromCart($event)"
-                                    (quantityIncrease)="onQuantityIncrease($event)" (quantityDecrease)="onQuantityDecrease($event)"></app-cart-item>
+                                    <app-cart-item *ngFor="let cartItem of cartItems | oredBy: this.sortBy : this.isAsc"
+                                        [cartModel]="cartItem" (deleteItem)="onDeleteFromCart($event)"
+                                        (quantityIncrease)="onQuantityIncrease($event)"
+                                        (quantityDecrease)="onQuantityDecrease($event)"></app-cart-item>
 
                                     <hr class="my-4">
 

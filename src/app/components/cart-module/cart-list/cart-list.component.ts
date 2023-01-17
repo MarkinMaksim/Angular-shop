@@ -12,6 +12,8 @@ import { CartModel } from '../../models/cart-model';
 })
 export class CartListComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
+  sortBy: string = 'name';
+  isAsc: boolean = false;
   cartItems: CartModel[] = [];
 
   constructor(private cartService: CartService, private configService: ConfigOptionsService) {

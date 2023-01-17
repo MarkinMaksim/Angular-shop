@@ -1,6 +1,6 @@
 <section class="section" style="background-color: #eee;">
     <div class="container py-5">
-        <app-product *ngFor="let product of products" class="product" [productModel]="product" (addToCart)="onAddToCart($event)"></app-product>
+        <app-product *ngFor="let product of products | async" class="product" [productModel]="product" (addToCart)="onAddToCart($event)"></app-product>
     </div>
 </section>
 

@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-3 col-lg-3 col-xl-3">
         <h6 class="text-muted" appClickDiractive color="gray">Category</h6>
-        <h6 class="text-black mb-0">{{this.cartModel.name}}</h6>
+        <h6 class="text-black mb-0">{{this.cartModel.name | uppercase }}</h6>
     </div>
     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
         <button class="btn btn-link px-2"
@@ -23,7 +23,7 @@
         
     </div>
     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-        <h6 class="mb-0">$ {{this.cartModel.price}}</h6>
+        <h6 class="mb-0">$ {{this.cartModel.price | number: '1.1'}}</h6>
     </div>
     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
         <a href="#!" class="text-muted" (click)="onDeleteFromCart()"><i class="bi bi-trash"></i></a>
