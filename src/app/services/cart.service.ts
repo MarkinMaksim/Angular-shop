@@ -58,9 +58,9 @@ export class CartService {
         this.productsToBuy = [...this.productsToBuy.slice(0, existingProductIndex), existingProduct, ...this.productsToBuy.slice(existingProductIndex + 1)]
       }
 
-      this.totalQuantity += quantity;  
+      this.totalQuantity += quantity;
       this.totalCost += existingProduct.price * quantity;
-    } 
+    }
   }
 
   deleteItem(cartItem: CartModel) {
@@ -79,8 +79,8 @@ export class CartService {
   getProductsInCart(): CartModel[]  {
     return this.productsToBuy;
   }
-  
-  getCartSummary(): [number, number] {
+
+  getCartSummary(): [totalCost: number, totalQuantity: number] {
     return [this.totalCost, this.totalQuantity];
   }
 

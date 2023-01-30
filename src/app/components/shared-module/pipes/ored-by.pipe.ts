@@ -11,9 +11,11 @@ export class OredByPipe implements PipeTransform {
       switch(key) {
         case 'price': {
           if (isAsc) {
+            // а нельзя ли это все сделать так, чтобы кода было меньше?
+            // second[key] < first[key] ...
             return second.price < first.price ? 1 : -1;
           } else {
-            return second.price < first.price ? -1 : 1; 
+            return second.price < first.price ? -1 : 1;
           }
         }
         case 'count': {
