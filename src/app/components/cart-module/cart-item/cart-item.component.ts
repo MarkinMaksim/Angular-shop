@@ -18,6 +18,7 @@ export class CartItemComponent implements OnInit {
   quantityDecrease: EventEmitter<CartModel> = new EventEmitter<CartModel>();
 
   ngOnInit(): void {
+    console.log(this.cartModel);
   }
 
   onDeleteFromCart(): void {

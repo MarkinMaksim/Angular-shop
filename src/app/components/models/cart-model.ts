@@ -5,6 +5,6 @@ export class CartModel extends ProductModel {
         productModel: ProductModel,
         public count: number
     ) {
-        super(productModel.name, productModel.description, productModel.imageUrl, productModel.price, productModel.isAvalible);
+        super(productModel.id, productModel.name, productModel.description, productModel.imageUrl, productModel.price, productModel.isAvalible);
     }
  }

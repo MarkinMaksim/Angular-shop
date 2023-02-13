@@ -31,7 +31,6 @@ export class ConfigOptionsService {
 
   setConfigProperty<K extends keyof ConfigModel>(key: K, value: ConfigModel[K]) {
     type t = keyof ConfigModel;
-    debugger;
     this._config[key] = value;
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { CartModel } from '../components/models/cart-model';
 import { ProductModel } from '../components/models/product-model';
 
@@ -10,8 +10,8 @@ export class CartService {
   productsToBuy: CartModel[] = [];
   totalCost: number = 0;
   totalQuantity: number = 0;
-  private cartItems = new Subject<CartModel[]>();
-  public cartItems$ = this.cartItems.asObservable();
+  //private cartItems = new Subject<CartModel[]>();
+  public cartItems$ = of(this.productsToBuy);
 
   addProduct(product: ProductModel): void {
     const existingProduct = this.productsToBuy.find(x => x.name === product.name);
@@ -20,13 +20,13 @@ export class CartService {
       existingProduct.count++;
     } else {
       const cartModel = new CartModel(product, 1)
-      this.productsToBuy = [ ...this.productsToBuy, cartModel ];
+      this.productsToBuy = [...this.productsToBuy, cartModel];
     }
     this.totalCost += product.price;
     this.totalQuantity += 1;
 
-    this.cartItems.next(this.productsToBuy);
-    console.log(this.productsToBuy);
+    //this.cartItems.next(this.productsToBuy);
+    this.cartItems$ = of(this.productsToBuy);
   }
 
   onQuantityIncrease(cartModel: CartModel) {
@@ -34,7 +34,8 @@ export class CartService {
 
     this.changeQuantity(cartModel, 1);
 
-    this.cartItems.next(this.productsToBuy);
+    //this.cartItems.next(this.productsToBuy);
+    this.cartItems$ = of(this.productsToBuy);
   }
 
   onQuantityDecrease(cartModel: CartModel) {
@@ -42,7 +43,9 @@ export class CartService {
 
     this.changeQuantity(cartModel, -1);
 
-    this.cartItems.next(this.productsToBuy);
+    //this.cartItems.next(this.productsToBuy);
+    this.cartItems$ = of(this.productsToBuy);
+
   }
 
   changeQuantity(cartModel: CartModel, quantity: number) {
@@ -58,9 +61,9 @@ export class CartService {
         this.productsToBuy = [...this.productsToBuy.slice(0, existingProductIndex), existingProduct, ...this.productsToBuy.slice(existingProductIndex + 1)]
       }
 
-      this.totalQuantity += quantity;  
+      this.totalQuantity += quantity;
       this.totalCost += existingProduct.price * quantity;
-    } 
+    }
   }
 
   deleteItem(cartItem: CartModel) {
@@ -73,13 +76,15 @@ export class CartService {
     this.totalCost -= cartItem.price * cartItem.count;
     this.totalQuantity -= cartItem.count;
 
-    this.cartItems.next(this.productsToBuy);
+    //this.cartItems.next(this.productsToBuy);
+    this.cartItems$ = of(this.productsToBuy);
+
   }
 
-  getProductsInCart(): CartModel[]  {
+  getProductsInCart(): CartModel[] {
     return this.productsToBuy;
   }
-  
+
   getCartSummary(): [number, number] {
     return [this.totalCost, this.totalQuantity];
   }
@@ -95,7 +100,9 @@ export class CartService {
   removeAllProducts() {
     this.productsToBuy = [];
 
-    this.cartItems.next(this.productsToBuy);
+    //this.cartItems.next(this.productsToBuy);
+    this.cartItems$ = of(this.productsToBuy);
+
   }
 
   isEmptyCart(): boolean {

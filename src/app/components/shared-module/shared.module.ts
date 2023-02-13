@@ -4,15 +4,17 @@ import { HighlightDirective } from './highlight-directive/highlight.directive';
 import { ClickDirective } from './diractives/click-diractive.directive';
 import { OredByPipe } from './pipes/ored-by.pipe';
 import { FormsModule } from '@angular/forms';
+import { NotEnoughPermissionsComponent } from './not-enough-permissions/not-enough-permissions.component';
 
 const dir = [
   HighlightDirective,
   ClickDirective,
-  OredByPipe
+  OredByPipe,
+  NotEnoughPermissionsComponent
 ]
 
 @NgModule({
-  declarations: [ ...dir, OredByPipe ],
+  declarations: [ ...dir ],
   imports: [
     CommonModule,
     FormsModule

@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CartModule } from './components/cart-module/cart.module';
 import { ProductModule } from './components/product-module/product.module';
+import { AdminModule } from './admin/admin.module';
+import { LoginModule } from './components/login-module/login.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { ProductModule } from './components/product-module/product.module';
     MatIconModule,
     CartModule,
     ProductModule,
+    AdminModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]

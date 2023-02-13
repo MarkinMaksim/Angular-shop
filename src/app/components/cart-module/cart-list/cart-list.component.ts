@@ -1,6 +1,7 @@
 import { STRING_TYPE } from '@angular/compiler';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
 import { ConfigOptionsService } from 'src/app/services/config-options.service';
 import { CartModel } from '../../models/cart-model';
@@ -11,19 +12,26 @@ import { CartModel } from '../../models/cart-model';
   styleUrls: ['./cart-list.component.css']
 })
 export class CartListComponent implements OnInit, OnDestroy {
-  private sub!: Subscription;
   sortBy: string = 'name';
   isAsc: boolean = false;
-  cartItems: CartModel[] = [];
+  cartItems!: CartModel[];
 
-  constructor(private cartService: CartService, private configService: ConfigOptionsService) {
+  constructor(
+    private cartService: CartService,
+     private configService: ConfigOptionsService,
+     private router: Router) {
   }
 
   ngOnInit(): void {
-    this.sub = this.cartService.cartItems$.subscribe(
-      data => this.cartItems = data
-    );
+    this.cartService.cartItems$
+    .subscribe((data) => {
+      this.cartItems = data;
+    });
     this.configService.setConfigProperty("login", "asd" )
+  }
+
+  submitOrder(): void {
+    this.router.navigate(['cart/order']);
   }
 
   getTotalCost(): number {
@@ -53,6 +61,5 @@ export class CartListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

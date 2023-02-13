@@ -1,0 +1,10 @@
+<h2>LOGIN</h2>
+<p>State: {{message}}</p>
+<p>
+  <button type="button" (click)="onLogout()"  *ngIf="checkLogin(); else loginBtn">Logout</button>
+
+  <ng-template #loginBtn>
+    <button type="button" (click)="onLogin()" >Login</button>
+    <button type="button" (click)="onLoginAdmin()" >Login Admin</button>
+  </ng-template>
+</p>
