@@ -2,6 +2,8 @@ import { STRING_TYPE } from '@angular/compiler';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { AppSettingsService } from 'src/app/services/app-settings.service';
+import { CartObservableService } from 'src/app/services/cart-observable.service';
 import { CartService } from 'src/app/services/cart.service';
 import { ConfigOptionsService } from 'src/app/services/config-options.service';
 import { CartModel } from '../../models/cart-model';
@@ -14,20 +16,27 @@ import { CartModel } from '../../models/cart-model';
 export class CartListComponent implements OnInit, OnDestroy {
   sortBy: string = 'name';
   isAsc: boolean = false;
-  cartItems!: CartModel[];
+  cartItems$!: Observable<Array<CartModel>>;
 
   constructor(
-    private cartService: CartService,
-     private configService: ConfigOptionsService,
-     private router: Router) {
+    private cartService: CartObservableService,
+    private configService: ConfigOptionsService,
+    private appSettings: AppSettingsService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
-    this.cartService.cartItems$
-    .subscribe((data) => {
-      this.cartItems = data;
-    });
-    this.configService.setConfigProperty("login", "asd" )
+    // this.cartService.getProductsInCart().subscribe((data) => {
+    //   this.cartItems = data;
+    // })
+    this.cartItems$ = this.cartService.getProductsInCart();
+    this.cartService.setTotal();
+    this.configService.setConfigProperty("login", "asd")
+
+    this.appSettings.getSettings().subscribe(data => {
+      this.sortBy = data.sortBy;
+      this.isAsc = data.isAsc;
+    }).unsubscribe();
   }
 
   submitOrder(): void {
@@ -43,7 +52,10 @@ export class CartListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteFromCart(cartModel: CartModel): void {
-    this.cartService.deleteItem(cartModel)
+    // this.cartService.deleteItem(cartModel).subscribe((data) => {
+    //   this.cartItems = data;
+    // })
+    this.cartItems$ = this.cartService.deleteItem(cartModel);
   }
 
   onQuantityIncrease(cartModel: CartModel): void {
@@ -55,8 +67,8 @@ export class CartListComponent implements OnInit, OnDestroy {
     console.log("decrease");
     this.cartService.onQuantityDecrease(cartModel);
   }
-  
-  trackByMethod(index:number, el:any): number {
+
+  trackByMethod(index: number, el: any): number {
     return el.id;
   }
 

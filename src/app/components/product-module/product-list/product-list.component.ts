@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CartObservableService } from 'src/app/services/cart-observable.service';
 import { CartService } from 'src/app/services/cart.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { ProductPromiseService } from 'src/app/services/product-promise.service';
+import { CartModel } from '../../models/cart-model';
 import { ProductModel } from '../../models/product-model';
 
 @Component({
@@ -11,9 +13,9 @@ import { ProductModel } from '../../models/product-model';
 })
 export class ProductListComponent implements OnInit {
 
-  products!: Observable<ProductModel[]>;
+  products!: Promise<Array<ProductModel>>;
 
-  constructor(private productService: ProductsService, private cartService: CartService) {
+  constructor(private productService: ProductPromiseService, private cartService: CartObservableService) {
   }
 
   ngOnInit(): void {
@@ -22,6 +24,6 @@ export class ProductListComponent implements OnInit {
 
   onAddToCart(product: ProductModel): void {
     console.log('add product to cart');
-    this.cartService.addProduct(product);
+    this.cartService.addProduct(product).subscribe((result) => console.log(result));
   }
 }

@@ -24,7 +24,7 @@ const routes: Routes = [
       },
       {
         path: 'product/add/:productID',
-        component: ProductFormComponent
+        component: ProductFormComponent,
       },
       {
         path: 'product/edit/:productID',

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { ProductPromiseService } from 'src/app/services/product-promise.service';
 import { ProductModel } from '../../models/product-model';
 
 @Component({
@@ -26,7 +26,7 @@ export class ProductComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productService: ProductsService,
+    private productService: ProductPromiseService,
     private authService: AuthService) {
   }
 
@@ -45,7 +45,12 @@ export class ProductComponent implements OnInit {
           // notes about "!"
           // params.get() returns string | null, but getTask takes string | number
           // in this case taskID is a path param and can not be null
-          return this.productService.getProduct(params.get('productID')!)
+          let productId = params.get('productID');
+          if (productId != null) {
+            return this.productService.getProduct(productId!);
+          }
+          
+          return Promise.resolve();
         }
         ),
         // transform undefined => {}

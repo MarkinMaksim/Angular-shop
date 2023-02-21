@@ -10,6 +10,8 @@ import { CartModule } from './components/cart-module/cart.module';
 import { ProductModule } from './components/product-module/product.module';
 import { AdminModule } from './admin/admin.module';
 import { LoginModule } from './components/login-module/login.module';
+import { HttpClientModule } from '@angular/common/http';
+import { httpInterceptorProviders } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { LoginModule } from './components/login-module/login.module';
     NavbarComponent,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     MatIconModule,
@@ -26,7 +29,7 @@ import { LoginModule } from './components/login-module/login.module';
     AdminModule,
     LoginModule
   ],
-  providers: [],
+  providers: [ httpInterceptorProviders ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

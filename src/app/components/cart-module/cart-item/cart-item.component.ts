@@ -26,10 +26,16 @@ export class CartItemComponent implements OnInit {
   }
 
   onQuantityIncrease(): void {
+    this.cartModel.count += 1;
     this.quantityIncrease.emit(this.cartModel);
   }
 
   onQuantityDecrease(): void {
-    this.quantityDecrease.emit(this.cartModel);
+    this.cartModel.count -= 1;
+    if (this.cartModel.count == 0) {
+      this.deleteItem.emit(this.cartModel)
+    } else {
+      this.quantityDecrease.emit(this.cartModel);
+    }
   }
 }
