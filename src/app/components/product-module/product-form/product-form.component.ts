@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Router, UrlTree } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { ProductPromiseService } from 'src/app/services/product-promise.service';
 import { ProductModel } from '../../models/product-model';
 import { CanComponentDeactivate } from '../../shared-module/can-component-deactivate.interface';
 
@@ -18,14 +18,13 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate{
   private onGoBackClick: boolean = false;
 
   constructor(
-    private productsService: ProductsService,
+    private productsService: ProductPromiseService,
     private route: ActivatedRoute,
     private router: Router,
     private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
-    debugger;
     // data is an observable object
     // which contains custom and resolve data
     this.route.data.pipe(map((data: Data) => data['product'])).subscribe((product: ProductModel) => {
@@ -35,15 +34,14 @@ export class ProductFormComponent implements OnInit, CanComponentDeactivate{
   }
 
   onSaveProduct(): void {
-    debugger;
     const product = { ...this.product };
 
-    if (product.id) {
-      this.productsService.updateproduct(product);
+    if (product.id != undefined) {
+      this.productsService.updateProduct(product);
       // optional parameter: http://localhost:4200/products;id=2
       this.router.navigate(['/products', { editedproductID: product.id }]);
     } else {
-      this.productsService.createproduct(product);
+      this.productsService.createProduct(product);
       this.onGoBack();
     }
     this.originalProduct = { ...this.product };

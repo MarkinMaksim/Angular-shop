@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently --kill-others \"ng serve -o\" \"json-server --watch db\\db.json\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -25,6 +25,7 @@
     "bootstrap-icons": "^1.10.2",
     "mdb-ui-kit": "^6.0.1",
     "rxjs": "~7.5.0",
+    "ts-stopwatch": "^0.0.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },
@@ -33,6 +34,7 @@
     "@angular/cli": "~15.0.3",
     "@angular/compiler-cli": "^15.0.0",
     "@types/jasmine": "~4.3.0",
+    "concurrently": "^7.6.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

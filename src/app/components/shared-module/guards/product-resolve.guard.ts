@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, type Resolve, type ActivatedRouteSnapshot  } from '@angular/router';
-import { type Observable, of, EMPTY, catchError, take, switchMap, delay, finalize } from 'rxjs';
+import { type Observable, of, EMPTY, catchError, take, switchMap, delay, finalize, from } from 'rxjs';
+import { ProductPromiseService } from 'src/app/services/product-promise.service';
 
-import { ProductsService } from 'src/app/services/products.service';
 import { ProductModel } from '../../models/product-model';
 
 @Injectable({
@@ -10,12 +10,12 @@ import { ProductModel } from '../../models/product-model';
 })
 export class ProductResolveGuard implements Resolve<ProductModel> {
   constructor(
-    private productsService: ProductsService,
+    private productsService: ProductPromiseService,
     private router: Router,
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ProductModel> {
-    debugger;
+    
     console.log('ProductResolve Guard is called');
 
     if (!route.paramMap.has('productID')) {
@@ -23,8 +23,9 @@ export class ProductResolveGuard implements Resolve<ProductModel> {
     }
 
     const id = route.paramMap.get('productID')!;
+    console.log("WOOOOORK")
 
-    return this.productsService.getProduct(id).pipe(
+    return from(this.productsService.getProduct(id)).pipe(
       delay(2000),
       switchMap((product: ProductModel) => {
         if (product) {

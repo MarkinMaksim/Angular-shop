@@ -40,7 +40,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
 
   private checkLogin(url: string): boolean | UrlTree {
-    debugger;
     console.log('loging')
     if (this.authService.isLoggedIn) {
       return true;

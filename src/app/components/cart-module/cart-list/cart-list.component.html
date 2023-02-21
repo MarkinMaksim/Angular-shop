@@ -34,7 +34,7 @@
                                     </select>
                                     Asc: <input [(ngModel)]="this.isAsc" type="checkbox">
                                     <hr class="my-4">
-                                    <app-cart-item *ngFor="let cartItem of cartItems | oredBy: this.sortBy : this.isAsc"
+                                    <app-cart-item *ngFor="let cartItem of cartItems$ | async | oredBy: this.sortBy : this.isAsc"
                                         [cartModel]="cartItem" (deleteItem)="onDeleteFromCart($event)"
                                         (quantityIncrease)="onQuantityIncrease($event)"
                                         (quantityDecrease)="onQuantityDecrease($event)"></app-cart-item>
