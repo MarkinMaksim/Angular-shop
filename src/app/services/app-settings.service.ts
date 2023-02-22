@@ -31,6 +31,7 @@ export class AppSettingsService {
     );
   }
 
+  // может быть private?
   public getJSON(): Observable<SettingsModel> {
     return this.http.get<SettingsModel>("./assets/app-settings.json").pipe(
       retry(2)
