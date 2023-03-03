@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { map, Subject, switchMap, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProductPromiseService } from 'src/app/services/product-promise.service';
 import { ProductModel } from '../../models/product-model';
+import { selectSelectedProductByUrl } from 'src/app/core/@ngrx/products/products.selectors';
+
 
 @Component({
   selector: 'app-product',
@@ -19,42 +22,39 @@ export class ProductComponent implements OnInit {
     price: 0,
     isAvalible: false
   };
+  private product: ProductModel = {} as ProductModel;
+
+  private componentDestroyed$: Subject<void> = new Subject<void>();
 
   @Output()
   addToCart: EventEmitter<ProductModel> = new EventEmitter<ProductModel>();
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private productService: ProductPromiseService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private store: Store
+    ) {
   }
 
   ngOnInit(): void {
-    const observer = {
+    const observer: any = {
       next: (product: ProductModel) => {
+        debugger;
         if (product.id != undefined) {
-          this.productModel = { ...product }
+          this.productModel = { ...product };
         }
       },
-      error: (err: any) => console.log(err)
+      error(err: any) {
+        console.log(err);
+      },
+      complete() {
+        console.log('Stream is completed');
+      }
     };
-    this.route.paramMap
+
+    this.store.select(selectSelectedProductByUrl)
       .pipe(
-        switchMap((params: ParamMap) => {
-          // notes about "!"
-          // params.get() returns string | null, but getTask takes string | number
-          // in this case taskID is a path param and can not be null
-          let productId = params.get('productID');
-          if (productId != null) {
-            return this.productService.getProduct(productId!);
-          }
-          
-          return Promise.resolve();
-        }
-        ),
-        // transform undefined => {}
-        map(el => el ? el : {} as ProductModel)
+        takeUntil(this.componentDestroyed$)
       )
       .subscribe(observer);
   }
@@ -89,4 +89,11 @@ export class ProductComponent implements OnInit {
     const link = ['/view', this.productModel.id];
     this.router.navigate(link);
   }
+
+  ngOnDestroy(): void {
+    this.componentDestroyed$.next();
+    this.componentDestroyed$.complete();
+   }   
 }
+
+

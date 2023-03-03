@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,12 @@ import { AdminModule } from './admin/admin.module';
 import { LoginModule } from './components/login-module/login.module';
 import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './interceptors';
+import { StoreModule } from '@ngrx/store';
+import { RootStoreModule } from './core/@ngrx/root-store.module';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { Router } from '@angular/router';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -22,14 +28,22 @@ import { httpInterceptorProviders } from './interceptors';
   imports: [
     HttpClientModule,
     BrowserModule,
-    AppRoutingModule,
     MatIconModule,
     CartModule,
     ProductModule,
     AdminModule,
-    LoginModule
+    LoginModule,
+    AppRoutingModule,
+    RootStoreModule
   ],
   providers: [ httpInterceptorProviders ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(router: Router) {
+    const replacer = (key: string, value: any): string =>
+      typeof value === 'function' ? value.name : value;
+
+    // console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
+  }
+ }

@@ -1,4 +1,8 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { merge, tap } from 'rxjs';
+import * as RouterActions from './core/@ngrx/router/router.actions';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +15,13 @@ export class AppComponent {
 
   title = 'shop';
 
+  constructor(
+    private store: Store,
+    private router: Router) { }
+
   ngAfterViewInit() {
     this.appTitle.nativeElement.title = 'AppTitle'
   }
 }
+
+
