@@ -1,6 +1,7 @@
 <section class="section" style="background-color: #eee;">
+    <p *ngIf="(productsError$ | async) as value">{{value}}</p>
     <div class="container py-5">
-        <app-product *ngFor="let product of products | async" class="product" [productModel]="product" (addToCart)="onAddToCart($event)"></app-product>
+        <app-product *ngFor="let product of (products$ | async) " class="product" [productModel]="product" (addToCart)="onAddToCart($event)"></app-product>
     </div>
 </section>
 
