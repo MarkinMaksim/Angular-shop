@@ -18,6 +18,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { Router } from '@angular/router';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProcessorderComponent } from './process-order/processorder.component';
+import { EmailDirective } from './validators/email.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     NavbarComponent,
   ],
   imports: [
+    ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     BrowserModule,
     MatIconModule,
@@ -34,6 +39,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AdminModule,
     LoginModule,
     AppRoutingModule,
+    EmailDirective,
     RootStoreModule
   ],
   providers: [ httpInterceptorProviders ],

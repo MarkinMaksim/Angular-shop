@@ -40,7 +40,6 @@ export class ProductFormComponent implements OnInit {
 
     const observer: any = {
       next: (product: ProductModel) => {
-        debugger;
         this.product = { ...product };
       },
       error(err: any) {
@@ -69,7 +68,6 @@ export class ProductFormComponent implements OnInit {
   }
 
   onGoBack(): void {
-    debugger;
     this.store.dispatch(RouterActions.back());  
   }
 

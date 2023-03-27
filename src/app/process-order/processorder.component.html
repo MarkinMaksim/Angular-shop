@@ -1,0 +1,108 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Sign Up!
+    </div>
+
+    <div class="panel-body">
+        <form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="onSave()">
+            <fieldset>
+                <div class="form-group" [ngClass]="{'has-error': isShowValidationMessage('firstName') }">
+                    <label class="col-md-2 control-label" for="firstNameId">First Name</label>
+                    <div class="col-md-8">
+                        <input class="form-control" id="firstNameId" type="text" placeholder="First Name (required)"
+                            formControlName="firstName" />
+                    </div>
+                </div>
+                <span class="help-block" *ngIf="isShowValidationMessage('firstName') ">
+                    {{validationMessagesMap.get('firstName')?.message}}
+                   </span>
+
+                <div class="form-group" [ngClass]="{'has-error': isShowValidationMessage('lastName') }">
+                    <label class="col-md-2 control-label" for="lastNameId">Last Name</label>
+                    <div class="col-md-8">
+                        <input class="form-control" id="lastNameId" type="text" placeholder="Last Name (required)"
+                            formControlName="lastName" />
+                    </div>
+                </div>
+                <span class="help-block" *ngIf="isShowValidationMessage('lastName') ">
+                    {{validationMessagesMap.get('lastName')?.message}}
+                   </span>                   
+
+                <div class="form-group" [ngClass]="{'has-error': isShowValidationMessage('email') }">
+                    <label class="col-md-2 control-label" for="emailId">Email</label>
+
+                    <div class="col-md-8">
+                        <input class="form-control" id="emailId" type="email" placeholder="Email (required)"
+                            formControlName="email" appEmailValidator />
+                    </div>
+                </div>
+                <span class="help-block" *ngIf="isShowValidationMessage('email') ">
+                    {{validationMessagesMap.get('email')?.message}}
+                   </span>
+
+                <div formArrayName="phones">
+                    <div *ngFor="let phone of phones.controls; let i = index" [formGroupName]="i">
+                        <div class="form-group" [ngClass]="{'has-error': isShowValidationMessage('phone') }">
+                            <label class="col-md-2 control-label" attr.for="{{'phoneId' + i}}">Phone</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="{{'phoneId' + i}}" type="tel"
+                                    placeholder="Phone required" formControlName="phone" />
+                                <span class="help-block" *ngIf="(phone.touched || phone.dirty) && phone.errors">
+                                    <span *ngIf="phone.hasError('required')">
+                                        Please enter your phone number.
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="col-md-1 text-right" *ngIf="i>0">
+                                <button class="btn btn-danger" (click)="onRemovePhone(i)">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-2">
+                        <button class="btn btn-primary" type="button" (click)="onAddPhone()">
+                            Add Another Phone
+                        </button>
+                    </div>
+                </div>
+
+                <div formGroupName="sendGroup">
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-8 checkbox">
+                            <label>
+                                <input id="sendProductsId" type="checkbox" formControlName="sendProducts">
+                                Send me your products
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="isSendProduct()">
+                        <div class="form-group" [ngClass]="{'has-error': isShowValidationMessage('address') }">
+                            <label class="col-md-2 control-label" for="addressId">Address</label>
+
+                            <div class="col-md-8">
+                                <input class="form-control" id="addressId" type="address"
+                                    placeholder="Address (required)" required formControlName="address" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-2">
+                        <span>
+                            <button class="btn btn-primary" type="submit" [disabled]="!userForm.valid">
+                                Save
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<br>Dirty: {{ userForm.dirty }}
+<br>Touched: {{ userForm.touched }}
+<br>Valid: {{ userForm.valid }}
+<br>Value: {{ userForm.value | json}}
+<br>Form Status: {{userForm.status }}

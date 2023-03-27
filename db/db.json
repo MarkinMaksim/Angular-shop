@@ -41,5 +41,24 @@
       "isAvalible": true
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "id": 1,
+      "name": "Apple iPhone XR change12321",
+      "description": "128 GB ROM | 15.49 cm (6.1 inch) Display 12MP Rear Camera | 7MP Front Camera A12 Bionic Chip Processor | Gorilla Glass with high quality display ",
+      "imageUrl": "https://i.imgur.com/5Aqgz7o.jpg",
+      "price": 2000,
+      "isAvalible": true,
+      "count": 9
+    },
+    {
+      "id": 2,
+      "name": "Apple iPhone XR 2",
+      "description": "128 GB ROM | 15.49 cm (6.1 inch) Display 12MP Rear Camera | 7MP Front Camera A12 Bionic Chip Processor | Gorilla Glass with high quality display ",
+      "imageUrl": "https://i.imgur.com/5Aqgz7o.jpg",
+      "price": 2000,
+      "isAvalible": true,
+      "count": 1
+    }
+  ]
 }
