@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login-module/login/login.component';
 import { AuthGuard } from './components/shared-module/guards/auth.guard';
 import { NotEnoughPermissionsComponent } from './components/shared-module/not-enough-permissions/not-enough-permissions.component';
+import { ProcessorderComponent } from './process-order/processorder.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login'
+  },
+  {
+    path: 'order',
+    component: ProcessorderComponent,
+    title: 'Order'
   },
   {
     // The router will match this route if the URL requested

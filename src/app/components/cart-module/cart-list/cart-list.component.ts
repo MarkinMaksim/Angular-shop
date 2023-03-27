@@ -40,7 +40,8 @@ export class CartListComponent implements OnInit, OnDestroy {
   }
 
   submitOrder(): void {
-    this.router.navigate(['cart/order']);
+    debugger;
+    this.router.navigate(['order']);
   }
 
   getTotalCost(): number {
