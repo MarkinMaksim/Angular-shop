@@ -15,10 +15,7 @@ export class AppComponent {
 
   title = 'shop';
 
-  constructor(
-    private store: Store,
-    private router: Router) { }
-
+  constructor() {}
   ngAfterViewInit() {
     this.appTitle.nativeElement.title = 'AppTitle'
   }
