@@ -40,10 +40,6 @@ export class CartListComponent implements OnInit, OnDestroy {
   }
 
   submitOrder(): void {
-<<<<<<< HEAD
-=======
-    debugger;
->>>>>>> e31f16b6650fd019810bd1b40ba8d7b7b393789b
     this.router.navigate(['order']);
   }
 
