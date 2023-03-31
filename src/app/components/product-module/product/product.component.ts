@@ -39,7 +39,6 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     const observer: any = {
       next: (product: ProductModel) => {
-        debugger;
         if (product.id != undefined) {
           this.productModel = { ...product };
         }

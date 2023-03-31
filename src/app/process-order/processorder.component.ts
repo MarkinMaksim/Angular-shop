@@ -41,7 +41,6 @@ export class ProcessorderComponent implements OnInit {
 
   constructor(private fb: FormBuilder) { }
   ngOnInit(): void {
-    debugger;
     this.userForm.valueChanges.subscribe(ignorValue =>
       this.setValidationMessages()
       );
